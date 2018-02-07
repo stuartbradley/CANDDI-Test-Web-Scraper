@@ -1,9 +1,11 @@
 
 //Setting Requirements
-var prompt = require('prompt');
+const prompt = require('prompt');
 const request = require('request');
-var cheerio = require('cheerio');
-var sleep = require('system-sleep');
+const cheerio = require('cheerio');
+const sleep = require('system-sleep');
+const Knwl = require('knwl.js');
+ 
 
 //prompts for email address and formats to get domain name.
 prompt.start();
@@ -20,11 +22,16 @@ prompt.get(['email'], function(err,result){
 sleep(10000);
 
 //sends request to website and checks for a 200 response. If there is no 200 status code, program finishes.
-request(site, function (error, response, html) {
+request(site, function (error, response, body) {
   if (!error && response.statusCode == 200) {
-    console.log(html);
-	console.log(site);
+    var $ = cheerio.load(body);
+	var string = $.toString();
+	knwlInstance.init(string);
+	var phone = knwlInstance.get("phones");
+	console.log(phone);
   }else{
 	  console.log(site + " cannot be reached, please restart the program and try again");
   }
 });
+
+
