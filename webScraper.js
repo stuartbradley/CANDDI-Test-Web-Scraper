@@ -18,7 +18,7 @@ request(site, function (error, response, body) {
     var $ = cheerio.load(body);
 	var string = $.text();
 	knwlInstance.init(string);
-	var phone = knwlInstance.get("phones");
+	var phone = knwlInstance.get("emails");
 	console.log(phone);
   }else{
 	  console.log(site + " cannot be reached, please restart the program and try again");
