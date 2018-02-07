@@ -25,7 +25,7 @@ sleep(10000);
 request(site, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     var $ = cheerio.load(body);
-	var string = $.toString();
+	var string = $.text();
 	knwlInstance.init(string);
 	var phone = knwlInstance.get("phones");
 	console.log(phone);
