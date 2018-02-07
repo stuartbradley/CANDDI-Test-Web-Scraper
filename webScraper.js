@@ -6,6 +6,7 @@ const Knwl = require('knwl.js');
 var readlineSync = require('readline-sync');
 var knwlInstance = new Knwl('english');   
 
+	//asks user for email and takes domain name from email
 	var userName = readlineSync.question('please enter your email account ');
 	const domain = userName.replace(/.*@/, "");
 	site = 'http://www.' + domain;
