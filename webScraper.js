@@ -5,7 +5,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const sleep = require('system-sleep');
 const Knwl = require('knwl.js');
- 
+var knwlInstance = new Knwl('english');   
 
 //prompts for email address and formats to get domain name.
 prompt.start();
