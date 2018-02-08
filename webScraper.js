@@ -4,10 +4,15 @@ const request = require('request');
 const cheerio = require('cheerio');
 var readlineSync = require('readline-sync');        
 var firstline = require('firstline');
+var Knwl = require('knwl.js');
+var knwlInstance = new Knwl('english');
+knwlInstance.register('internationalPhones', require('./node_modules/knwl.js/experimental_plugins/internationalPhones'));
 
-var PhoneNumber = "(\\+\\d{1,3}\\s?(\\s\\(0\\))?|0)(\\d{3}\\s?\\d{3}\\s?\\d{4}|\\d{4}\\s?\\d{6})(?![0-9])";
-var email = "[A-Za-z][A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z]{3}|(\\.[A-Za-z]{2}){2})";
-var Address ="([A-Z]+\\s)*(\\d{1,3}-)?\\d*\\s([A-Z]+,?\\s)+(street|road|avenue|square|lane|grove|fair|hill|drive|circle|crescent|boulevard|parade|close|court|exchange|st|rd|av),?\\s?(([A-Z]+)?,?\\s?){1,2}([A-Z]{1,2}(([0-9]{1,2})|([0-9][A-Z]))\\s[0-9][A-Z]{1,2})";
+
+
+var PhoneNumberReg = "(\\+\\d{1,3}\\s?(\\s\\(0\\))?|0)(\\d{3}\\s?\\d{3}\\s?\\d{4}|\\d{4}\\s?\\d{6})(?![0-9])";
+var emailReg = "[A-Za-z][A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z]{3}|(\\.[A-Za-z]{2}){2})";
+var AddressReg ="([A-Z]+\\s)*(\\d{1,3}-)?\\d*\\s([A-Z]+,?\\s)+(street|road|avenue|square|lane|grove|fair|hill|drive|circle|crescent|boulevard|parade|close|court|exchange|st|rd|av),?\\s?(([A-Z]+)?,?\\s?){1,2}([A-Z]{1,2}(([0-9]{1,2})|([0-9][A-Z]))\\s[0-9][A-Z]{1,2})";
 
 
 	//asks user for email and takes domain name from email
@@ -21,9 +26,12 @@ request(site, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     var $ = cheerio.load(body);
 	var html = $.html();
-	scrapeDate(html,PhoneNumber);
-	scrapeDate(html,email);
-	scrapeDate(html,Address);
+	knwlInstance.init(html);
+	var phoneNumber = knwlInstance.get('internationalPhones');
+	console.log(phoneNumber);
+	scrapeDate(html,PhoneNumberReg);
+	scrapeDate(html,emailReg);
+	scrapeDate(html,AddressReg);
   }else{
 	  console.log(site + " cannot be reached, please restart the program and try again");
   }
@@ -39,3 +47,5 @@ if(matches === null){
 	console.log(information);
 }
 };
+
+
