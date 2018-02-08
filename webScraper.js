@@ -3,7 +3,6 @@
 const request = require('request');
 const cheerio = require('cheerio');
 var readlineSync = require('readline-sync');        
-var firstline = require('firstline');
 
 var PhoneNumberReg = "(\\+\\d{1,3}\\s?(\\s\\(0\\))?|0)(\\d{3}\\s?\\d{3}\\s?\\d{4}|\\d{4}\\s?\\d{6})(?![0-9])";
 var emailReg = "[A-Za-z][A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z]{3}|(\\.[A-Za-z]{2}){2})";
